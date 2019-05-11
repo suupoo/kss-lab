@@ -18,3 +18,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//ルーティング
+Route::resource('forum', 'ForumController', ['only' => ['index', 'create', 'edit', 'store', 'destroy']]);
