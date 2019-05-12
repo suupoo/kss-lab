@@ -17,7 +17,6 @@
             <div class="form-group" data-form="f2">
                 @include('components.forms.select',[
                     'id'=>'category','title'=>'category','expText'=>'カテゴリを選択してください。',
-                    'multiple'=>true,
                     'options'=>[
                         'category1'=>'テストカテゴリ1',
                         'category2'=>'テストカテゴリ2'

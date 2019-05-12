@@ -2,7 +2,7 @@
 /**
  * @id
  * @title
- * @type
+ * @value
  * @class
  * @expText
  * @cols
@@ -24,5 +24,6 @@
           {{$required==true?'required':null}}
           {{$readonly==true?'readonly':null}}
 >
+{{$value}}
 </textarea>
 <small id="exp-{{$id}}" class="form-text text-muted">{{$expText}}</small>
