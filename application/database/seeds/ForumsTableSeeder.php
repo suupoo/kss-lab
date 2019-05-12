@@ -21,6 +21,9 @@ class ForumsTableSeeder extends Seeder
             'content'   =>  'テスト内容',
             'category_id'
                         =>  null,
+            'edit_user' =>  1,
+            'status'    =>  1,
+            'visible'   =>  1,
             'created_at'=>new DateTime('2019/05/11 19:00:00'),
             'updated_at'=>new DateTime('2019/05/11 19:00:00'),
         ]);
