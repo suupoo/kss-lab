@@ -20,7 +20,7 @@ class ForumRepository implements ForumInterface
 
     public function getList()
     {
-        // TODO: Implement getList() method.
+        return Forum::all();
     }
 
     public function update($id, $data)

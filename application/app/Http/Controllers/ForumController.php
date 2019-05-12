@@ -28,7 +28,8 @@ class ForumController extends Controller
      */
     public function index(ForumService $forumService)
     {
-        return view('forum.index');
+        $forumService->getList();
+        return view('forum.index',['forums'=>$forumService->getForum()]);
     }
 
     /**
@@ -76,7 +77,14 @@ class ForumController extends Controller
      */
     public function show(Forum $forum)
     {
-        return dd($forum);
+        //見えないように設定されている場合
+        if( $forum->{Forum::VISIBLE} == false)
+            return redirect()->route('forum.index');
+        //非公開設定かつ自分以外が作成した掲示板の場合
+        if( $forum->{Forum::STATUS} != 1 && $forum->{Forum::USER_ID} !== Auth::id())
+            return redirect()->route('forum.index');
+
+        return view('forum.show',['forum'=>$forum]);
     }
 
     /**
