@@ -53,7 +53,7 @@ class ForumController extends Controller
     {
         $data = [
             Forum::USER_ID => Auth::id(),
-            Forum::TITLE => Auth::id(),
+            Forum::TITLE => $request->input(Forum::TITLE),
             Forum::CONTENT =>$request->input(Forum::CONTENT),
             Forum::CATEGORY_ID =>Forum::getReverseOptionStatus($request->input(Forum::CATEGORY_ID)),
             Forum::EDIT_USER => Auth::id(),
@@ -95,29 +95,39 @@ class ForumController extends Controller
      */
     public function edit(Forum $forum)
     {
-        //
+        //見えないように設定されている場合
+        //非公開設定かつ自分以外が作成した掲示板の場合
+        if( $forum->{Forum::VISIBLE} == false ||
+            ( $forum->{Forum::STATUS} != 1 && $forum->{Forum::USER_ID} !== Auth::id())
+        )
+            return redirect()->route('forum.index');
+
+        return view('forum.edit',compact('forum'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Forum  $forum
+     * @param  \Illuminate\Http\Request $request
+     * @param Forum $forum
+     * @param ForumService $forumService
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Forum $forum)
+    public function update(Request $request, Forum $forum,ForumService $forumService)
     {
-        //
+        return redirect('forum/'.$forumService->getId().'/edit');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Forum  $forum
+     * @param Forum  $forum
+     * @param ForumService $forumService
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Forum $forum)
+    public function destroy(Forum $forum,ForumService $forumService)
     {
-        //
+        $forumService->delete($forum->id);
+        return redirect()->route('forum.index');
     }
 }

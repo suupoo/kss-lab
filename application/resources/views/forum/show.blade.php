@@ -29,9 +29,11 @@
         </a>
     </div>
     <div class="col">
-        <a href="{{route('forum.destroy',$forum->id)}}" class="btn btn-danger btn-block">
-            削除
-        </a>
+        <form method="post" action="{{route('forum.destroy',$forum->id)}}">
+            {{csrf_field()}}
+            @method('DELETE')
+            <input type="submit" value="削除" class="btn btn-danger btn-block" />
+        </form>
     </div>
 </div>
 @endsection

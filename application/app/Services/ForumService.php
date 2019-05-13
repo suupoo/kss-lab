@@ -41,6 +41,20 @@ class ForumService
     }
 
     /**
+     * 削除
+     *
+     * @param id
+     * @throws \Exception
+     */
+    public function delete($id) {
+        $rtn = $this->forumRepository->delete($id);
+        if($rtn == true){
+            $this->forum = null;
+        }
+        $rtn;
+    }
+
+    /**
      * 新規作成に成功したかどうかを判定します。
      *
      * @return bool
