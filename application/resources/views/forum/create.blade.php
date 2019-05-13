@@ -16,7 +16,7 @@
             </div>
             <div class="form-group" data-form="f2">
                 @include('components.forms.select',[
-                    'id'=>'category','title'=>'category','expText'=>'カテゴリを選択してください。',
+                    'id'=>'category','title'=>'カテゴリ','expText'=>'カテゴリを選択してください。',
                     'options'=>[
                         'category1'=>'テストカテゴリ1',
                         'category2'=>'テストカテゴリ2'
@@ -34,7 +34,7 @@
             </div>
             <div class="form-group" data-form="f4">
                 @include('components.forms.select',[
-                    'id'=>'status','title'=>'category','expText'=>'公開ステータスを選択してください。',
+                    'id'=>'status','title'=>'公開ステータス','expText'=>'公開ステータスを選択してください。',
                     'options'=>\App\Http\Models\Forum::getOptionForStatus(),
                 ])
             </div>
