@@ -31,7 +31,9 @@
         </header>
 
         <main>
-            @yield('content')
+            <div class="container my-4">
+                @yield('content')
+            </div>
         </main>
     </div>
     <script>
