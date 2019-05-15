@@ -7,9 +7,13 @@
  * @expText
  *
  * @selectedValue
+ * @labelVisibility boolean
  */
+if(!isset($labelVisibility))$labelVisibility = true;
 ?>
+@if( $labelVisibility == true )
 <label for="{{$id}}">{{$title}}</label>
+@endif
 <select {{( isset($multiple) )? 'multiple':null}} class="form-control"
         id="{{$id}}"
         name="{{$id}}"

@@ -11,9 +11,13 @@
  * @minLength
  * @required
  * @readonly
+ * @labelVisibility boolean
  */
+if(!isset($labelVisibility))$labelVisibility = true;
 ?>
+@if( $labelVisibility == true )
 <label for="{{$id}}">{{$title}}</label>
+@endif
 <textarea class="form-control {{$class}}"
           id="{{$id}}"
           name="{{$id}}"
