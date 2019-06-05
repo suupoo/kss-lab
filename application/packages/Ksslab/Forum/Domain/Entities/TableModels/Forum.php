@@ -1,13 +1,18 @@
 <?php
 
-namespace App\Http\Models;
+namespace Packages\Ksslab\Forum\Domain\Entity\TableModels;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Forum extends Model
 {
-    const TABLENAME     = 'forums';
-    const PRIMALY_KEY   = 'id';
+    use SoftDeletes;
+
+    protected $table = 'forums';
+    protected $primaryKey = 'id';
+
+    protected $optStatus;
 
     const ID = 'id';
     const USER_ID = 'user_id';
@@ -17,6 +22,7 @@ class Forum extends Model
     const EDIT_USER = 'edit_user';
     const STATUS = 'status';
     const VISIBLE = 'visible';
+    const DELETED_AT = 'deleted_at';
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -29,6 +35,12 @@ class Forum extends Model
         'status',
         'visible',
     ];
+    /**
+     * 日付へキャストする属性
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * statusカラムに対応したselectタグのオプションを返します。

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Models\Forum;
 use Illuminate\Http\Request;
-
-use App\Services\ForumService;
 use Illuminate\Support\Facades\Auth;
+
+use Packages\Ksslab\Forum\Domain\Entity\TableModels\Forum;
+use Packages\Ksslab\Forum\Service\ForumService;
 
 class ForumController extends Controller
 {
@@ -28,18 +28,18 @@ class ForumController extends Controller
      */
     public function index(ForumService $forumService)
     {
-        $forumService->getList();
-        return view('forum.index',['forums'=>$forumService->getForum()]);
+        return view('forum.index',['forums'=>$forumService->getList()]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param ForumService $forumService
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(ForumService $forumService)
     {
-        return view('forum.create');
+        return view('forum.create',['optStatus' => $forumService->getOptStatus() ]);
     }
 
     /**
@@ -60,19 +60,17 @@ class ForumController extends Controller
             Forum::STATUS =>(int)$request->input(Forum::STATUS),
             Forum::VISIBLE => true,
         ];
-        $forumService->create($data);
-
-        if($forumService->isCreate()){
-            return redirect('forum/'.$forumService->getId().'/edit');
+        $forum = $forumService->create($data);
+        if($forum){
+            return redirect('forum/'.$forum->id.'/edit');
         }
-
         return redirect()->route('forum.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Forum  $forum
+     * @param Forum $forum
      * @return \Illuminate\Http\Response
      */
     public function show(Forum $forum)
@@ -90,11 +88,14 @@ class ForumController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Forum  $forum
+     * @param Forum $forum
+     * @param ForumService $forumService
      * @return \Illuminate\Http\Response
      */
-    public function edit(Forum $forum)
+    public function edit(Forum $forum, ForumService $forumService)
     {
+        $optStatus = $forumService->getOptStatus();
+
         //見えないように設定されている場合
         //非公開設定かつ自分以外が作成した掲示板の場合
         if( $forum->{Forum::VISIBLE} == false ||
@@ -102,7 +103,8 @@ class ForumController extends Controller
         )
             return redirect()->route('forum.index');
 
-        return view('forum.edit',compact('forum'));
+
+        return view('forum.edit',compact('forum','optStatus'));
     }
 
     /**
@@ -115,15 +117,18 @@ class ForumController extends Controller
      */
     public function update(Request $request, Forum $forum,ForumService $forumService)
     {
-        return redirect('forum/'.$forumService->getId().'/edit');
+        $forum->fill($request->all());
+        $updated = $forumService->update($forum);
+        return redirect('forum/'.$updated->id.'/edit');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Forum  $forum
+     * @param Forum $forum
      * @param ForumService $forumService
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Forum $forum,ForumService $forumService)
     {

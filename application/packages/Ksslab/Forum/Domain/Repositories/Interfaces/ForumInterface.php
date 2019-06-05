@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Interfaces;
+namespace Packages\Ksslab\Forum\Domain\Repositories\Interfaces;
 
 /**
  * Interface ForumInterface
