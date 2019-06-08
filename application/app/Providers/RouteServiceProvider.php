@@ -38,8 +38,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
-
-        //
+        $this->pkgKsslabWebRoutes();
     }
 
     /**
@@ -69,5 +68,17 @@ class RouteServiceProvider extends ServiceProvider
              ->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
+    }
+
+    /**
+     * Define the "ksslab" routes for the application.
+     *
+     * @return void
+     */
+    protected function pkgKsslabWebRoutes()
+    {
+        Route::middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('packages/Ksslab/routes/web.php'));
     }
 }
