@@ -21,5 +21,14 @@ class UsersTableSeeder extends Seeder
             'created_at'=>new DateTime('2019/05/11 00:00:00'),
             'updated_at'=>new DateTime('2019/05/11 00:00:00'),
         ]);
+
+        DB::table($this::TABLENAME)->insert([
+            'id'        =>  2,
+            'name'      =>  'テストユーザ2',
+            'email'     =>  'test2@kss.lab',
+            'password'  =>  '$2y$10$JPj5ATn1OPKmWS.8lmWPjOLDyGlqKkrYA/GBmOCtVKVnoA91PbG6W',
+            'created_at'=>new DateTime('2019/06/11 00:00:00'),
+            'updated_at'=>new DateTime('2019/06/11 00:00:00'),
+        ]);
     }
 }
