@@ -16,6 +16,10 @@ class AddForumSoftDelete extends Migration
         Schema::table('forums', function (Blueprint $table) {
             $table->softDeletes();
         });
+
+        Schema::table('comments', function (Blueprint $table) {
+            $table->softDeletes();
+        });
     }
 
     /**
@@ -26,6 +30,10 @@ class AddForumSoftDelete extends Migration
     public function down()
     {
         Schema::table('forums', function (Blueprint $table) {
+            $table  ->dropColumn('deleted_at');
+        });
+
+        Schema::table('comments', function (Blueprint $table) {
             $table  ->dropColumn('deleted_at');
         });
     }
