@@ -2,10 +2,11 @@
 
 use Illuminate\Database\Seeder;
 
-class UsersTableSeeder extends Seeder
+class ForumCommentTableSeeder extends Seeder
 {
-    const TABLENAME = 'users';
+    const TABLENAME = 'forum_comment';
     const PRIMALY_KEY = 'id';
+
     /**
      * Run the database seeds.
      *
@@ -15,20 +16,22 @@ class UsersTableSeeder extends Seeder
     {
         DB::table($this::TABLENAME)->insert([
             'id'        =>  1,
-            'name'      =>  'テストユーザ',
-            'email'     =>  'test@kss.lab',
-            'password'  =>  '$2y$10$u3SVvoMdIXNR5j7VNZluEuTC1tbYrE/Rxyv.DJ9MSpCQpo.OCl6Em',
+            'forum_id'  =>  1,
+            'comment_id'=>  1,
+            'enable'    => true,
             'created_at'=>new DateTime('2019/05/11 00:00:00'),
             'updated_at'=>new DateTime('2019/05/11 00:00:00'),
+            'deleted_at'=>  null,
         ]);
 
         DB::table($this::TABLENAME)->insert([
             'id'        =>  2,
-            'name'      =>  'テストユーザ2',
-            'email'     =>  'test2@kss.lab',
-            'password'  =>  '$2y$10$JPj5ATn1OPKmWS.8lmWPjOLDyGlqKkrYA/GBmOCtVKVnoA91PbG6W',
+            'forum_id'   => 1,
+            'comment_id'=>  2,
+            'enable'    => true,
             'created_at'=>new DateTime('2019/06/11 00:00:00'),
             'updated_at'=>new DateTime('2019/06/11 00:00:00'),
+            'deleted_at'=>  null,
         ]);
     }
 }

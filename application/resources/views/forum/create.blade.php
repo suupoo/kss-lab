@@ -35,7 +35,7 @@
             <div class="form-group" data-form="f4">
                 @include('components.forms.select',[
                     'id'=>'status','title'=>'公開ステータス','expText'=>'公開ステータスを選択してください。',
-                    'options'=>\App\Http\Models\Forum::getOptionForStatus(),
+                    'options'=>$optStatus,
                 ])
             </div>
             @include('components.forms.btn-submit',['btnType'=> 'btn-primary','class'=>'btn-block','title'=>'送信'])

@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Http\Models;
+namespace Packages\Ksslab\Forum\Domain\Entity\TableModels;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Model
 {
+    use SoftDeletes;
+
     //
     protected $table = 'comments';
     protected $primaryKey = 'id';
@@ -26,6 +29,7 @@ class Comment extends Model
         'status',
         'visible',
     ];
+
     /**
      * リレーション：User
      * Comment.user_id = User.id
@@ -33,6 +37,23 @@ class Comment extends Model
      */
     public function user()
     {
-        $this->belongsTo('App\Http\Models\User');
+        $this->hasOne('App\Http\Models\User');
     }
+
+    /**
+     * フォーラム
+     * comment.id = forum_comment.comment_id
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function forum(){
+        return $this
+            ->belongsToMany(
+            'Packages\Ksslab\Forum\Domain\Entity\TableModels\Forum',
+            'forum_comment'
+            )
+            ->withTimestamps();
+    }
+
+    protected $dates = ['deleted_at'];
 }

@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Repositories;
+namespace Packages\Ksslab\Forum\Domain\Repositories;
 
-use App\Http\Models\Forum;
-use App\Repositories\Interfaces\ForumInterface;
+use Packages\Ksslab\Forum\Domain\Entity\TableModels\Forum;
+use Packages\Ksslab\Forum\Domain\Repositories\Interfaces\ForumInterface;
 
 class ForumRepository implements ForumInterface
 {
 
     private $forum;
+    private $comment;
 
     public function __construct()
     {

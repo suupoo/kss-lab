@@ -24,6 +24,7 @@ class ForumsTableSeeder extends Seeder
             'edit_user' =>  1,
             'status'    =>  1,
             'visible'   =>  1,
+            'deleted_at'=> null,
             'created_at'=>new DateTime('2019/05/11 19:00:00'),
             'updated_at'=>new DateTime('2019/05/11 19:00:00'),
         ]);
