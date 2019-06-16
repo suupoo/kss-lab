@@ -70,19 +70,18 @@ class ForumController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Forum $forum
+     * @param $forum_id
+     * @param ForumService $forumService
      * @return \Illuminate\Http\Response
      */
-    public function show(Forum $forum)
+    public function show($forum_id, ForumService $forumService)
     {
-        //見えないように設定されている場合
-        if( $forum->{Forum::VISIBLE} == false)
-            return redirect()->route('forum.index');
-        //非公開設定かつ自分以外が作成した掲示板の場合
-        if( $forum->{Forum::STATUS} != 1 && $forum->{Forum::USER_ID} !== Auth::id())
+        $forum = $forumService->get($forum_id);
+
+        if(!$forum)
             return redirect()->route('forum.index');
 
-        return view('forum.show',['forum'=>$forum]);
+        return view('forum.show',['forum'=> $forum]);
     }
 
     /**

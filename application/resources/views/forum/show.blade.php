@@ -44,23 +44,32 @@
         </div>
     </div>
 </div>
-<div class="row my-2" id="comments">
-    <form action="" method="post">
-        {{csrf_field()}}
-    </form>
-    <div class="col-10">
-        <div class="form-group" data-form="f2">
-            @include('components.forms.select',[
-                'id'=>'category','title'=>'カテゴリ','expText'=>'カテゴリを選択してください。',
-                'options'=>[
-                    'category1'=>'テストカテゴリ1',
-                    'category2'=>'テストカテゴリ2'
-                ],
-            ])
-        </div>
+<div class="row" id="comments">
+    <div class="col">
+        <form action="{{route('forum.comment.store',['forum_id'=>$forum->id])}}" method="post">
+            {{csrf_field()}}
+            <div class="form-row align-items-center">
+                <div class="col-10 col-sm-12">
+                    @include('components.forms.input',[
+                        'id'=>'comment','title'=>'コメント','type'=>'text','class'=>'','placeholder'=>'','expText'=>'コメントは250文字以内で投稿できます。',
+                        'max'=>'250','min'=>'1','maxlength'=>'250','minlength'=>'1',
+                        'value'=>'$forum->comment->comment',
+                        'required'=>true,'readonly'=>false,
+                    ])
+                </div>
+                <div class="col-2 col-sm-12">
+                    @include('components.forms.btn-submit',['btnType'=> 'btn-primary','class'=>'btn-block','title'=>'書き込み'])
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="col-2">
-        @include('components.forms.btn-submit',['btnType'=> 'btn-primary','class'=>'btn-block','title'=>'書き込み'])
+    <div class="row">
+        @foreach($forum->comments as $comment)
+        <p>
+            {{$comment->comment}}
+        </p>
+        @endforeach
     </div>
 </div>
+
 @endsection

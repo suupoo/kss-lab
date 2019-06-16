@@ -17,6 +17,9 @@
                 <a href="{{route('forum.show',$forum->id)}}">
                     {{$forum->title}}
                 </a>
+                @isset($forum->comments)
+                <span>({{count($forum->comments)}})</span>
+                @endisset
             </li>
             @endforeach
         </ul>

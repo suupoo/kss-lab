@@ -43,24 +43,16 @@ class Forum extends Model
     protected $dates = ['deleted_at'];
 
     /**
-     * statusカラムに対応したselectタグのオプションを返します。
+     * ForumComment
      *
-     * @return array
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    static function getOptionForStatus(){
-        return [
-            1=>'公開',
-            0=>'非公開'
-        ];
-    }
-
-    /**
-     * statusカラムに対応したselectタグのオプションを返します。
-     *
-     * @param $selected
-     * @return int
-     */
-    static function getReverseOptionStatus($selected){
-        return 1;
+    public function comments()
+    {
+        return $this
+            ->belongsToMany('Packages\Ksslab\Forum\Domain\Entity\TableModels\Comment',
+                'forum_comment'
+            )
+            ->withTimestamps();
     }
 }

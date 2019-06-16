@@ -3,88 +3,118 @@
 namespace Packages\Ksslab\Forum\Service;
 
 use Packages\Ksslab\Forum\Domain\Entity\TableModels\Forum;
-use Packages\Ksslab\Forum\Domain\Repositories\ForumRepository;
+use Packages\Ksslab\Forum\Domain\Entity\TableModels\Comment;
+use Packages\Ksslab\Forum\Domain\Entity\TableModels\ForumComment;
+
 use Illuminate\Support\Facades\Auth;
 
 class ForumService
 {
-    //リポジトリ
-    private $forumRepository;
-    private $optStatus = [
-        1=>'公開',
-        0=>'非公開'
-    ];
 
-    public function __construct(ForumRepository $forumRepository)
+    const FORUM     = 'forum';
+    const COMMENT   = 'comment';
+
+    private $status;
+
+    public function __construct()
     {
-        $this->forumRepository = $forumRepository;
+        $this->setStatus();
     }
 
+    #region "Forum"
+
     /**
-     * すべてを取得する．
+     * 掲示板の情報を一覧取得する\
      *
      * @return \App\Http\Models\Forum[]|\App\Http\Models\Forum[][]|array|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Collection[]
      */
     public function getList(){
-        $allForum = [];
-        $allForum = ($this->forumRepository->getList())
+        $allForums = [];
+        $allForums = (Forum::with(['comments'])->get())
             ->reject(function($value, $key){
                 //見えないように設定されている場合
                 if($value->visible != true )return true;
                 //非公開設定かつ自分以外が作成したものをはじく
                 if($value->status  != 1 && $value->user_id != Auth::id() )return true;
-            })
-            ->all();
-        return $allForum;
+            });
+
+        $allForums->all();
+
+        return $allForums;
     }
 
     /**
-     *  新規作成
+     * 指定の掲示板の情報を取得する
      *
-     * @param $data
-     * @return bool|Forum
+     * @param $forum_id
+     * @return array|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|Forum|Forum[]
      */
-    public function create($data) {
-        $rtn = $this->forumRepository->create($data);
-        if (!$rtn) $rtn = false;
-        return $rtn;
-    }
-
-    /**
-     * 更新
-     *
-     * @param Forum $forum
-     * @return \App\Http\Models\Forum|bool
-     */
-    public function update(Forum $forum){
-        $rtn = $this->forumRepository->update($forum->id,$forum->toArray());
-        if (!$rtn) $rtn = false;
-        return $rtn;
-    }
-
-    /**
-     * 削除
-     *
-     * @param id
-     * @throws \Exception
-     */
-    public function delete($id)
+    public function get($forum_id)
     {
-        $rtn = $this->forumRepository->delete($id);
-        if($rtn == true){
-            $this->forum = null;
-        }
-        $rtn;
-    }
+        $forum = [];
+        $forum = Forum::with(['comments'])
+            ->find($forum_id);
+//        //見えないように設定されている場合
+//        if( ($forum->{Forum::VISIBLE} == false) ||
+//            ($forum->{Forum::STATUS} != 1 && $forum->{Forum::USER_ID} !== Auth::id())
+//        )
 
+        return $forum;
+    }
+    #endregion
+
+    #region "Comment"
     /**
-     * statusカラムに対応したselectタグのオプションを返します。
+     * コメントを投稿します。
+     *
+     * @param int $forum_id
+     * @param array $valComment
      *
      * @return array
      */
+    public function postComment(int $forum_id , array $valComment)
+    {
+        $forum = [];
+        $forum = Forum::find($forum_id);
+
+        if($forum && $valComment){
+            $comment = new Comment([
+                Comment::USER_ID    => Auth::id(),
+                Comment::COMMENT    => $valComment[Comment::COMMENT],
+                Comment::TYPE       => 1,
+                Comment::EDIT_USER  => Auth::id(),
+                Comment::STATUS     => 1,
+                Comment::VISIBLE    => true,
+            ]);
+            $comment = $forum->comments()
+                             ->save($comment);
+        }
+        return $forum;
+    }
+    #endregion
+
+    #region "Getter"
     public function getOptStatus(){
-        return $this->optStatus;
+        return $this->status;
     }
 
+    public function getReverseOptionStatus(){
+        return array_flip($this->status);
+    }
+    #endregion
+
+    #region "Private Setter"
+    /**
+     * ステータスをセットします。
+     *
+     */
+    private function setStatus()
+    {
+        $this->status = [
+            1=>'公開',
+            0=>'非公開'
+        ];
+    }
+    #endregion
 
 }
