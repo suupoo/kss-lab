@@ -2,23 +2,31 @@
 
 namespace Packages\Ksslab\Forum\Service;
 
+use App\Repositories\Slack\SlackRepository;
 use Packages\Ksslab\Forum\Domain\Entity\TableModels\Forum;
 use Packages\Ksslab\Forum\Domain\Entity\TableModels\Comment;
 use Packages\Ksslab\Forum\Domain\Entity\TableModels\ForumComment;
+
+use App\Notifications\Slack;
+use App\Repositories\Slack\SlackRepository as SlackRepo;
 
 use Illuminate\Support\Facades\Auth;
 
 class ForumService
 {
+    private $slackRepository;
 
     const FORUM     = 'forum';
     const COMMENT   = 'comment';
 
-    private $status;
+    protected $status = [
+        1=>'公開',
+        0=>'非公開'
+    ];
 
-    public function __construct()
+    public function __construct(SlackRepository $slackRepository)
     {
-        $this->setStatus();
+        $this->slackRepository = $slackRepository;
     }
 
     #region "Forum"
@@ -54,11 +62,40 @@ class ForumService
         $forum = [];
         $forum = Forum::with(['comments'])
             ->find($forum_id);
-//        //見えないように設定されている場合
-//        if( ($forum->{Forum::VISIBLE} == false) ||
-//            ($forum->{Forum::STATUS} != 1 && $forum->{Forum::USER_ID} !== Auth::id())
-//        )
 
+        return $forum;
+    }
+
+    /**
+     * 作成する．
+     *
+     * @param array $valComment
+     * @param array $options    パラメータ
+     * @return array|Forum
+     */
+    public function create(array $valComment, array $options = [])
+    {
+        $forum = [];
+        if($valComment){
+            $forum = new Forum([
+                Forum::USER_ID      => Auth::id(),
+                Forum::TITLE        => $valComment[Forum::TITLE],
+                Forum::CONTENT      => $valComment[Forum::CONTENT],
+                Forum::CATEGORY_ID  => 1,
+                Forum::EDIT_USER    => Auth::id(),
+                Forum::STATUS       => (int)$valComment[Forum::STATUS],
+                Forum::VISIBLE      => true,
+            ]);
+            $forum->save();
+
+            // 保存に成功
+            if($forum->id){
+                // Notify to Slack
+                if( $options['notifiable']['slack'] ) {
+                    $this->slack($forum);
+                }
+            }
+        }
         return $forum;
     }
     #endregion
@@ -70,9 +107,10 @@ class ForumService
      * @param int $forum_id
      * @param array $valComment
      *
+     * @param array $options
      * @return array
      */
-    public function postComment(int $forum_id , array $valComment)
+    public function postComment(int $forum_id , array $valComment, array $options = [])
     {
         $forum = [];
         $forum = Forum::find($forum_id);
@@ -88,6 +126,14 @@ class ForumService
             ]);
             $comment = $forum->comments()
                              ->save($comment);
+
+            // 保存に成功
+            if($forum->id && $comment->id){
+                // Notify to Slack
+                if( $options['notifiable']['slack'] ) {
+                    $this->slack($forum,$comment);
+                }
+            }
         }
         return $forum;
     }
@@ -103,18 +149,22 @@ class ForumService
     }
     #endregion
 
-    #region "Private Setter"
+    #
     /**
-     * ステータスをセットします。
+     * Slackに投稿します。
      *
+     * @param Forum|null $forum
+     * @param Comment|null $comment
      */
-    private function setStatus()
-    {
-        $this->status = [
-            1=>'公開',
-            0=>'非公開'
-        ];
+    private function slack(Forum $forum = null, Comment $comment = null){
+        if($forum){
+            $post = '【'. $forum->title. '】を作成しました。 ';
+
+            if ($comment){
+                $post = '【'. $forum->title. '】>> ' . $comment->comment;
+            }
+            $this->slackRepository->notify( new Slack($post) );
+        }
     }
-    #endregion
 
 }

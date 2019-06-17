@@ -43,7 +43,10 @@ class CommentController extends Controller
      */
     public function store(Request $request , int $forum_id, ForumService $forumService)
     {
-        $forum = $forumService->postComment($forum_id, $request->toArray());
+        $forum = $forumService->postComment($forum_id, $request->toArray(),[
+            'notifiable'=>['slack'=>true]
+        ]);
+
         return redirect(route('forum.show',['forum_id' => $forum_id]));
     }
 

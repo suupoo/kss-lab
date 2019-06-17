@@ -15,6 +15,9 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('App\Services\ForumService');
+        if ($this->app->environment() == 'local') {
+            $this->app->register('Kurt\Repoist\RepoistServiceProvider');
+        }
     }
 
     /**
