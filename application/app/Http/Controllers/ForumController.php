@@ -51,16 +51,10 @@ class ForumController extends Controller
      */
     public function store(Request $request,ForumService $forumService)
     {
-        $data = [
-            Forum::USER_ID => Auth::id(),
-            Forum::TITLE => $request->input(Forum::TITLE),
-            Forum::CONTENT =>$request->input(Forum::CONTENT),
-            Forum::CATEGORY_ID =>Forum::getReverseOptionStatus($request->input(Forum::CATEGORY_ID)),
-            Forum::EDIT_USER => Auth::id(),
-            Forum::STATUS =>(int)$request->input(Forum::STATUS),
-            Forum::VISIBLE => true,
-        ];
-        $forum = $forumService->create($data);
+        $forum = $forumService->create($request->toArray(),[
+            'notifiable'=>['slack'=>true]
+        ]);
+
         if($forum){
             return redirect('forum/'.$forum->id.'/edit');
         }
@@ -101,7 +95,6 @@ class ForumController extends Controller
             ( $forum->{Forum::STATUS} != 1 && $forum->{Forum::USER_ID} !== Auth::id())
         )
             return redirect()->route('forum.index');
-
 
         return view('forum.edit',compact('forum','optStatus'));
     }
