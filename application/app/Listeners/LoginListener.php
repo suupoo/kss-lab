@@ -16,6 +16,9 @@ class LoginListener
     protected $login_notify;
     protected $slackRepository;
 
+    private $ip;
+    private $agent;
+
     /**
      * Create the event listener.
      *
@@ -25,6 +28,10 @@ class LoginListener
     public function __construct(Request $request,SlackRepository $slackRepository)
     {
         $this->request = $request;
+
+        $this->ip = $this->request->ip();
+        $this->agent = $this->request->header('User-Agent');
+
         $this->login_notify = env('LOGIN_NOTIFY', null);
         $this->slackRepository = $slackRepository;
     }
@@ -38,7 +45,7 @@ class LoginListener
     public function handle(Login $event)
     {
         $user = $event->user;
-        $message = "【ログイン】{$user->name}";
+        $message = "【ログイン】{$user->name} from {$this->ip}";
 
         if($this->login_notify === "slack"){
             // Login Notify to Slack
@@ -49,6 +56,15 @@ class LoginListener
             // Login Notify to SMS
             $user->notify(new Sms($message));
         }
+    }
 
+    /**
+     * IPアドレスからホスト名を取得します。
+     * @param $ip
+     * @return string hostname
+     */
+    private function getHost($ip)
+    {
+        return gethostbyaddr($ip);
     }
 }
