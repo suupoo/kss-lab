@@ -36,4 +36,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * SMSを送信します。
+     *
+     * @param $notification
+     * @return string | false
+     */
+    public function routeNotificationForNexmo($notification){
+
+        if(!$this->country_cd || !$this->phone_number)
+            return false;
+
+        return $this->country_cd . ltrim($this->phone_number,'0');
+    }
 }
