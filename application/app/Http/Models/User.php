@@ -50,4 +50,15 @@ class User extends Authenticatable
 
         return $this->country_cd . ltrim($this->phone_number,'0');
     }
+
+    /**
+     * メールチャンネルに対する通知をルートする
+     *
+     * @param  \Illuminate\Notifications\Notification  $notification
+     * @return string
+     */
+    public function routeNotificationForMail($notification)
+    {
+        return $this->email;
+    }
 }

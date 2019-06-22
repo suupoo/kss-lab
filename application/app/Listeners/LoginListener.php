@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use App\Repositories\Slack\SlackRepository;
 use App\Notifications\Slack;
 use App\Notifications\Sms;
+use App\Notifications\Reports\MonthlyReport;
+
+use Illuminate\Support\Facades\Notification;
 
 class LoginListener
 {
@@ -56,6 +59,8 @@ class LoginListener
             // Login Notify to SMS
             $user->notify(new Sms($message));
         }
+        Notification::route('mail',$user->email)
+            ->notify(new MonthlyReport("複数の通知送信"));
     }
 
     /**
