@@ -12,6 +12,7 @@ class File extends Model
     protected $table = 'files';
     protected $primaryKey = 'id';
     const ID = 'id';
+    const NAME = 'name';
     const PATH = 'path';
     const SIZE = 'size';
     const EXTENSION = 'extension';
@@ -37,6 +38,7 @@ class File extends Model
     protected $fillable = [
         'user_id',
         'path',
+        'name',
         'size',
         'extension',
         'edit_user',

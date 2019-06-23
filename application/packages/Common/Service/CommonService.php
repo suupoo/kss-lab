@@ -30,12 +30,14 @@ class CommonService
             && FileCheck::isExtension( $options['extensions'], $file->getExtension() )
         )return false;
 
+        $name = $file->getClientOriginalName();
         $size = $file->getSize();
         $path = $file->store($options['parDir'].'/'.$entity->id);
 
         $pFile = [
             File::PATH      => $path,
             File::SIZE      => $size,
+            File::NAME      => $name,
             File::EXTENSION => $file->extension(),
             File::EDIT_USER => Auth::id(),
             File::ENABLE    => true,
