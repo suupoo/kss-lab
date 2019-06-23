@@ -2,17 +2,14 @@
 
 namespace Packages\Ksslab\Forum\Service;
 
-use App\Repositories\Slack\SlackRepository;
+use Illuminate\Support\Facades\Auth;
 use Packages\Ksslab\Forum\Domain\Entity\TableModels\Forum;
 use Packages\Ksslab\Forum\Domain\Entity\TableModels\Comment;
-use Packages\Ksslab\Forum\Domain\Entity\TableModels\ForumComment;
-
 use App\Notifications\Slack;
-use App\Repositories\Slack\SlackRepository as SlackRepo;
+use App\Repositories\Slack\SlackRepository;
+use Packages\Common\Service\CommonService;
 
-use Illuminate\Support\Facades\Auth;
-
-class ForumService
+class ForumService extends CommonService
 {
     private $slackRepository;
 
@@ -136,6 +133,21 @@ class ForumService
             }
         }
         return $forum;
+    }
+    #endregion
+
+    #region "File"
+    /**
+     * ファイルをフォーラムのidに関連付けてアップロードします。
+     *
+     * @param Forum $forum
+     * @param $file
+     * @param array $options
+     * @return bool
+     */
+    public function fileUpload($forum, $file, $options = [])
+    {
+        return parent::fileUpload($forum, $file, $options);
     }
     #endregion
 

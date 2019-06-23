@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col">
         <h2>スレッド作成</h2>
-        <form id="fbody1" action="{{route('forum.store')}}" method="POST">
+        <form id="fbody1" action="{{route('forum.store')}}" enctype="multipart/form-data" method="POST">
             {{csrf_field()}}
             <div class="form-group" data-form="f1">
                 @include('components.forms.input',[
@@ -36,6 +36,14 @@
                 @include('components.forms.select',[
                     'id'=>'status','title'=>'公開ステータス','expText'=>'公開ステータスを選択してください。',
                     'options'=>$optStatus,
+                ])
+            </div>
+
+            <div class="form-group" data-form="f5">
+                @include('components.forms.file',[
+                    'id'=>'updFile01','title'=>'アップロード','type'=>'file','class'=>'custom-file-input btn btn-primary','expText'=>'',
+                    'value'=>'','browse'=>'ファイルを選択してください。',
+                    'required'=>true,'readonly'=>false,
                 ])
             </div>
             @include('components.forms.btn-submit',['btnType'=> 'btn-primary','class'=>'btn-block','title'=>'送信'])
