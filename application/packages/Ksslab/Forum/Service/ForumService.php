@@ -147,7 +147,10 @@ class ForumService extends CommonService
      */
     public function fileUpload($forum, $file, $options = [])
     {
-        return parent::fileUpload($forum, $file, $options);
+        $uploaded = parent::fileUpload($forum, $file, $options);
+        if($uploaded)
+            $forum->files()->save($uploaded);
+        return $uploaded;
     }
     #endregion
 
