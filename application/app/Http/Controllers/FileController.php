@@ -6,19 +6,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Packages\Common\Infrastructure\Entities\File;
 use Illuminate\Support\Facades\Storage;
+use Packages\Ksslab\Forum\Domain\Entity\TableModels\Forum;
 
 class FileController extends Controller
 {
     /**
      * Display the specified resource.
      *
-     * @param string $encId 暗号化されたID
+     * @param int $file_id
      * @return void
      */
-    public function show(string $encId)
+    public function show(int $file_id)
     {
-        $id = Crypt::decryptString($encId);
-        $file = File::find($id);
+        $file = File::find($file_id);
 
         if($file){
             return Storage::download($file->path);
@@ -28,12 +28,12 @@ class FileController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $file_id
+     * @param $forum_id
+     * @return void
      */
-    public function destroy(string $encId, int $forum_id)
+    public function destroy(int $file_id, $forum_id)
     {
-        $id = Crypt::decryptString($encId);
-        $file = File::find($id)->delete();
+        dd($forum_id);
     }
 }

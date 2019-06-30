@@ -43,6 +43,18 @@
             </div>
             @include('components.forms.btn-submit',['btnType'=> 'btn-primary','class'=>'btn-block','title'=>'送信'])
         </form>
+
+        @foreach($forum->files as $file)
+            <form id="fbody2" action="{{route('forum.file.destroy',['forum_id'=>$forum->id,'file_id'=>$file->id])}}" method="POST">
+                @method('delete')
+                <div class="form-group" data-form="f5">
+                    <p>{{$file->name}}：
+                        @include('components.forms.btn-submit',['btnType'=> 'btn-danger','class'=>'','title'=>'削除'])
+                    </p>
+                </div>
+            </form>
+        @endforeach
+
     </div>
 </div>
 @endsection

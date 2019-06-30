@@ -74,7 +74,7 @@
 <div class="row" id="files">
     <div class="col">
         @foreach($forum->files as $file)
-            <a href="{{route('file.show',['forum_id'=>$forum->id,'id'=>\Illuminate\Support\Facades\Crypt::encryptString($file->id)])}}" class="btn btn-link" >{{$file->name}}</a>
+            <a href="{{route('forum.file.show',['forum_id'=>$forum->id,'file_id'=>$file->id])}}" class="btn btn-link" >{{$file->name}}</a>
         @endforeach
     </div>
 </div>
