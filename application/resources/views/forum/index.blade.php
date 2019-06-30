@@ -20,6 +20,10 @@
                 @isset($forum->comments)
                 <span>({{count($forum->comments)}})</span>
                 @endisset
+
+                @if(count($forum->files)>0)
+                <i class="fa fa-file" aria-hidden="true"></i>
+                @endif
             </li>
             @endforeach
         </ul>
