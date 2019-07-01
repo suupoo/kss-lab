@@ -11,17 +11,17 @@ class File extends Model
 
     protected $table = 'files';
     protected $primaryKey = 'id';
-    const ID = 'id';
-    const NAME = 'name';
-    const PATH = 'path';
-    const SIZE = 'size';
-    const EXTENSION = 'extension';
-    const DOWNLOADED = 'downloaded';
-    const EDIT_USER = 'edit_user';
-    const ENABLE = 'enable';
-    const DELETED_AT = 'deleted_at';
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
+    const ID = 'files.id';
+    const NAME = 'files.name';
+    const PATH = 'files.path';
+    const SIZE = 'files.size';
+    const EXTENSION = 'files.extension';
+    const DOWNLOADED = 'files.downloaded';
+    const EDIT_USER = 'files.edit_user';
+    const ENABLE = 'files.enable';
+    const DELETED_AT = 'files.deleted_at';
+    const CREATED_AT = 'files.created_at';
+    const UPDATED_AT = 'files.updated_at';
 
     /**
      * 日付へキャストする属性
@@ -44,4 +44,11 @@ class File extends Model
         'edit_user',
         'enable',
     ];
+
+    function forum(){
+        return $this
+            ->belongsTo('Packages\Ksslab\Forum\Domain\Entity\TableModels\Forum',
+                'forum_comment'
+            );
+    }
 }

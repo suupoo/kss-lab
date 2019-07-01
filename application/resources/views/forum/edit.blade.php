@@ -45,7 +45,8 @@
         </form>
 
         @foreach($forum->files as $file)
-            <form id="fbody2" action="{{route('forum.file.destroy',['forum_id'=>$forum->id,'file_id'=>$file->id])}}" method="POST">
+            <form id="fbody2" action="{{route('forum.file.destroy',['file'=>$file->id,'forum'=>$forum->id])}}" method="POST">
+                {{csrf_field()}}
                 @method('delete')
                 <div class="form-group" data-form="f5">
                     <p>{{$file->name}}：

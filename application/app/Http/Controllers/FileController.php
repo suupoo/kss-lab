@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
 use Packages\Common\Infrastructure\Entities\File;
 use Illuminate\Support\Facades\Storage;
 use Packages\Ksslab\Forum\Domain\Entity\TableModels\Forum;
@@ -28,12 +26,20 @@ class FileController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $file_id
-     * @param $forum_id
+     * @param int $file
+     * @param int $forum
      * @return void
      */
-    public function destroy(int $file_id, $forum_id)
+    public function destroy(int $forum, int $file)
     {
-        dd($forum_id);
+        $entFile = File::find($file);
+        $entForum  = Forum::find($forum);
+
+        if($entForum && $entFile){
+            $entForum->files()
+                ->detach($file);
+            $entFile->delete();
+        }
+        return redirect('forum/'.$entFile->id);
     }
 }
