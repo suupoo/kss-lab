@@ -131,8 +131,17 @@ class ForumController extends Controller
      */
     public function update(Request $request, Forum $forum,ForumService $forumService)
     {
-        $forum->fill($request->all());
-        $updated = $forumService->update($forum);
+        // 更新実行
+        $updated = $forumService->update($forum->id,$request->toArray());
+
+        // 添付ファイルの登録
+        if($request->file('updFile01'))
+            $file = $forumService->fileUpload(
+                $updated,
+                $request->file('updFile01'),
+                $this->updOptions
+            );
+
         return redirect('forum/'.$updated->id.'/edit');
     }
 

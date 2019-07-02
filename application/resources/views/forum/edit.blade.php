@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col">
         <h2>スレッド作成</h2>
-        <form id="fbody1" action="{{route('forum.update',[$forum->id])}}" method="POST">
+        <form id="fbody1" action="{{route('forum.update',[$forum->id])}}" enctype="multipart/form-data" method="POST">
             {{csrf_field()}}
             @method('PUT')
             <div class="form-group" data-form="f1">
@@ -41,11 +41,25 @@
                     'selectedValue'=> $forum->status
                 ])
             </div>
+            @if(count($forum->files)<1)
+            <div class="form-group" data-form="f5">
+                @include('components.forms.file',[
+                    'id'=>'updFile01','title'=>'アップロード','type'=>'file','class'=>'custom-file-input btn btn-primary','expText'=>'',
+                    'value'=>'','browse'=>'ファイルを選択してください。',
+                    'required'=>false,'readonly'=>false,
+                ])
+            </div>
+            @endif
             @include('components.forms.btn-submit',['btnType'=> 'btn-primary','class'=>'btn-block','title'=>'送信'])
         </form>
+    </div>
+</div>
+<hr/>
 
+<div class="row">
+    <div class="col">
         @foreach($forum->files as $file)
-            <form id="fbody2" action="{{route('forum.file.destroy',['file'=>$file->id,'forum'=>$forum->id])}}" method="POST">
+            <form id="fbody2" action="{{route('forum.file.destroy',['file'=>$file->id,'forum'=>$forum->id])}}" enctype="multipart/form-data" method="POST">
                 {{csrf_field()}}
                 @method('delete')
                 <div class="form-group" data-form="f5">
@@ -55,7 +69,6 @@
                 </div>
             </form>
         @endforeach
-
     </div>
 </div>
 @endsection

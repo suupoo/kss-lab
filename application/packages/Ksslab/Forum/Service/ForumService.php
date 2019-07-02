@@ -95,6 +95,24 @@ class ForumService extends CommonService
         }
         return $forum;
     }
+
+    /**
+     * Update
+     *
+     * @param int $forum_id
+     * @param array $valForum
+     * @return array
+     */
+    public function update(int $forum_id , array $valForum)
+    {
+        $forum = Forum::find($forum_id);
+
+        if($forum && $valForum){
+            $result = $forum->fill($valForum)->save();
+        }
+
+        return ($result == true)? $forum : [];
+    }
     #endregion
 
     #region "Comment"
