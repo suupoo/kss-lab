@@ -46,4 +46,27 @@ class CommonService
         return $uploaded;
     }
 
+    /**
+     * 渡されたエンティティに関連したファイルを削除します。
+     *
+     * @param $entity
+     * @return bool
+     */
+    public function fileDelete($entity)
+    {
+        $cntDeleted = 0;
+        $uploaded = $entity->files()->get();
+
+        if($uploaded){
+            // Remove Relations
+            $entity->files()
+                ->detach($uploaded);
+            // Delete File Entity
+            $cntDeleted = File::destroy(
+                $uploaded->pluck('id')->all()
+            );
+        }
+         return ($cntDeleted>0)?true:false;
+    }
+
 }

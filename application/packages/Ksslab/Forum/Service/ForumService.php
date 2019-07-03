@@ -113,6 +113,27 @@ class ForumService extends CommonService
 
         return ($result == true)? $forum : [];
     }
+
+    /**
+     * Delete
+     *
+     * @param int $forum_id
+     * @return Forum $forum
+     */
+    public function delete(int $forum_id)
+    {
+        $forum = Forum::find($forum_id);
+        $file = $forum->files()
+            ->get();
+        // 削除
+        $forum->delete();
+
+        if($forum->deleted_at && $file){
+            $this->fileDelete($forum);
+        }
+
+        return $forum;
+    }
     #endregion
 
     #region "Comment"
@@ -169,6 +190,17 @@ class ForumService extends CommonService
         if($uploaded)
             $forum->files()->save($uploaded);
         return $uploaded;
+    }
+
+    /**
+     * フォーラムのidに関連付けたファイルを削除します。
+     *
+     * @param $forum
+     * @return bool
+     */
+    public function fileDelete($forum)
+    {
+        return parent::fileDelete($forum);
     }
     #endregion
 
