@@ -55,4 +55,15 @@ class Forum extends Model
             )
             ->withTimestamps();
     }
+
+
+    public function files()
+    {
+        return $this
+            ->belongsToMany(
+                'Packages\Common\Infrastructure\Entities\File',
+                'file_forum'
+            )
+            ->withTimestamps();
+    }
 }

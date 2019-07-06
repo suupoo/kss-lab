@@ -2,17 +2,14 @@
 
 namespace Packages\Ksslab\Forum\Service;
 
-use App\Repositories\Slack\SlackRepository;
+use Illuminate\Support\Facades\Auth;
 use Packages\Ksslab\Forum\Domain\Entity\TableModels\Forum;
 use Packages\Ksslab\Forum\Domain\Entity\TableModels\Comment;
-use Packages\Ksslab\Forum\Domain\Entity\TableModels\ForumComment;
-
 use App\Notifications\Slack;
-use App\Repositories\Slack\SlackRepository as SlackRepo;
+use App\Repositories\Slack\SlackRepository;
+use Packages\Common\Service\CommonService;
 
-use Illuminate\Support\Facades\Auth;
-
-class ForumService
+class ForumService extends CommonService
 {
     private $slackRepository;
 
@@ -98,6 +95,45 @@ class ForumService
         }
         return $forum;
     }
+
+    /**
+     * Update
+     *
+     * @param int $forum_id
+     * @param array $valForum
+     * @return array
+     */
+    public function update(int $forum_id , array $valForum)
+    {
+        $forum = Forum::find($forum_id);
+
+        if($forum && $valForum){
+            $result = $forum->fill($valForum)->save();
+        }
+
+        return ($result == true)? $forum : [];
+    }
+
+    /**
+     * Delete
+     *
+     * @param int $forum_id
+     * @return Forum $forum
+     */
+    public function delete(int $forum_id)
+    {
+        $forum = Forum::find($forum_id);
+        $file = $forum->files()
+            ->get();
+        // 削除
+        $forum->delete();
+
+        if($forum->deleted_at && $file){
+            $this->fileDelete($forum);
+        }
+
+        return $forum;
+    }
     #endregion
 
     #region "Comment"
@@ -136,6 +172,35 @@ class ForumService
             }
         }
         return $forum;
+    }
+    #endregion
+
+    #region "File"
+    /**
+     * ファイルをフォーラムのidに関連付けてアップロードします。
+     *
+     * @param Forum $forum
+     * @param $file
+     * @param array $options
+     * @return bool
+     */
+    public function fileUpload($forum, $file, $options = [])
+    {
+        $uploaded = parent::fileUpload($forum, $file, $options);
+        if($uploaded)
+            $forum->files()->save($uploaded);
+        return $uploaded;
+    }
+
+    /**
+     * フォーラムのidに関連付けたファイルを削除します。
+     *
+     * @param $forum
+     * @return bool
+     */
+    public function fileDelete($forum)
+    {
+        return parent::fileDelete($forum);
     }
     #endregion
 

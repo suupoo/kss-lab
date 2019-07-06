@@ -71,5 +71,12 @@
         @endforeach
     </div>
 </div>
+<div class="row" id="files">
+    <div class="col">
+        @foreach($forum->files as $file)
+            <a href="{{route('forum.file.show',['forum_id'=>$forum->id,'file_id'=>$file->id])}}" class="btn btn-link" >{{$file->name}}</a>
+        @endforeach
+    </div>
+</div>
 
 @endsection

@@ -10,6 +10,21 @@ use Packages\Ksslab\Forum\Service\ForumService;
 
 class ForumController extends Controller
 {
+    protected $updOptions =[
+        'parDir'        => "forum/uploads",
+        'maxByteSize'   => 52428800,
+        'extensions'    => [
+            // document
+            'csv','ppt','pdf',
+            // Image
+            'jpg','jpeg','png','gif',
+            // Movie
+            'mp4','wmv',
+            // Sound
+            'mp3',
+        ],
+    ] ;
+
     /**
      * Create a new controller instance.
      *
@@ -51,10 +66,17 @@ class ForumController extends Controller
      */
     public function store(Request $request,ForumService $forumService)
     {
+        // 掲示板の作成
         $forum = $forumService->create($request->toArray(),[
             'notifiable'=>['slack'=>true]
         ]);
-
+//        // 添付ファイルの登録
+        if($request->file('updFile01'))
+            $file = $forumService->fileUpload(
+                $forum,
+                $request->file('updFile01'),
+                $this->updOptions
+            );
         if($forum){
             return redirect('forum/'.$forum->id.'/edit');
         }
@@ -109,8 +131,17 @@ class ForumController extends Controller
      */
     public function update(Request $request, Forum $forum,ForumService $forumService)
     {
-        $forum->fill($request->all());
-        $updated = $forumService->update($forum);
+        // 更新実行
+        $updated = $forumService->update($forum->id,$request->toArray());
+
+        // 添付ファイルの登録
+        if($request->file('updFile01'))
+            $file = $forumService->fileUpload(
+                $updated,
+                $request->file('updFile01'),
+                $this->updOptions
+            );
+
         return redirect('forum/'.$updated->id.'/edit');
     }
 
