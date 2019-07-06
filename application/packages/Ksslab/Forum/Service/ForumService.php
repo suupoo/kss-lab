@@ -2,6 +2,7 @@
 
 namespace Packages\Ksslab\Forum\Service;
 
+use App\Http\Models\User;
 use Packages\Ksslab\Forum\Domain\Entity\TableModels\Forum;
 use Packages\Ksslab\Forum\Domain\Entity\TableModels\Comment;
 use Packages\Ksslab\Forum\Domain\Entity\TableModels\ForumComment;
@@ -54,12 +55,19 @@ class ForumService
         $forum = [];
         $forum = Forum::with(['comments'])
             ->find($forum_id);
-//        //見えないように設定されている場合
+        //        //見えないように設定されている場合
 //        if( ($forum->{Forum::VISIBLE} == false) ||
 //            ($forum->{Forum::STATUS} != 1 && $forum->{Forum::USER_ID} !== Auth::id())
 //        )
 
-        return $forum;
+        $commentUserIds = ($forum->comments()->get())
+            ->unique('user_id')
+            ->pluck('user_id');
+
+        $commentUsers = (User::whereIn('id',$commentUserIds->toArray())->get())
+            ->groupBy('id');
+
+        return ['forum'=>$forum,'commentUsers'=>$commentUsers];
     }
     #endregion
 
