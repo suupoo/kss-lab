@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Http\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -36,4 +36,29 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * SMSを送信します。
+     *
+     * @param $notification
+     * @return string | false
+     */
+    public function routeNotificationForNexmo($notification){
+
+        if(!$this->country_cd || !$this->phone_number)
+            return false;
+
+        return $this->country_cd . ltrim($this->phone_number,'0');
+    }
+
+    /**
+     * メールチャンネルに対する通知をルートする
+     *
+     * @param  \Illuminate\Notifications\Notification  $notification
+     * @return string
+     */
+    public function routeNotificationForMail($notification)
+    {
+        return $this->email;
+    }
 }
