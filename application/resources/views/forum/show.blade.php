@@ -53,7 +53,7 @@
                     @include('components.forms.input',[
                         'id'=>'comment','title'=>'コメント','type'=>'text','class'=>'','placeholder'=>'','expText'=>'コメントは250文字以内で投稿できます。',
                         'max'=>'250','min'=>'1','maxlength'=>'250','minlength'=>'1',
-                        'value'=>'$forum->comment->comment',
+                        'value'=>'',
                         'required'=>true,'readonly'=>false,
                     ])
                 </div>
