@@ -20,7 +20,8 @@
                 <a class="btn btn-outline-light mx-1" href="{{ route('register') }}">{{ __('auth.register') }}</a>
             @endif
         @else
-            <a class="btn btn-outline-light" href="{{ route('logout') }}"
+            <a class="btn btn-outline-light mx-1" href="{{ route('account.show',['account'=>\Illuminate\Support\Facades\Auth::user()->id]) }}">{{\Illuminate\Support\Facades\Auth::user()->name}}</a>
+            <a class="btn btn-outline-light mx-1" href="{{ route('logout') }}"
                onclick="event.preventDefault();
                document.getElementById('logout-form').submit();">
                 {{ __('auth.logout') }}
