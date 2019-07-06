@@ -92,12 +92,12 @@ class ForumController extends Controller
      */
     public function show($forum_id, ForumService $forumService)
     {
-        $forum = $forumService->get($forum_id);
+        $forumData = $forumService->get($forum_id);
 
-        if(!$forum)
+        if(!$forumData)
             return redirect()->route('forum.index');
 
-        return view('forum.show',['forum'=> $forum]);
+        return view('forum.show', $forumData);
     }
 
     /**
