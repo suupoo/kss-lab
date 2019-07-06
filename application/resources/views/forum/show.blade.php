@@ -65,9 +65,7 @@
     </div>
     <div class="row">
         @foreach($forum->comments as $comment)
-        <p>
-            {{$comment->comment}}
-        </p>
+            @component('components.comment.comment',['comment'=>$comment,'user'=>$commentUsers[$comment->user_id]])@endcomponent
         @endforeach
     </div>
 </div>

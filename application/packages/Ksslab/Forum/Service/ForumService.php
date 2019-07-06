@@ -2,6 +2,7 @@
 
 namespace Packages\Ksslab\Forum\Service;
 
+use App\Http\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Packages\Ksslab\Forum\Domain\Entity\TableModels\Forum;
 use Packages\Ksslab\Forum\Domain\Entity\TableModels\Comment;
@@ -60,7 +61,14 @@ class ForumService extends CommonService
         $forum = Forum::with(['comments'])
             ->find($forum_id);
 
-        return $forum;
+        $commentUserIds = ($forum->comments()->get())
+            ->unique('user_id')
+            ->pluck('user_id');
+
+        $commentUsers = (User::whereIn('id',$commentUserIds->toArray())->get())
+            ->groupBy('id');
+
+        return ['forum'=>$forum,'commentUsers'=>$commentUsers];
     }
 
     /**
