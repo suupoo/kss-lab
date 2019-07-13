@@ -64,15 +64,13 @@
         </form>
     </div>
     <div class="row">
-        <form action="{{route('account.show',['public_id'=>$forum->id])}}">
-            <div class="card" style="width: 18rem;">
-                <ul class="list-group list-group-flush">
-                @foreach($forum->comments as $comment)
-                    @component('components.comment.comment',['comment'=>$comment,'user'=>$commentUsers[$comment->user_id]])@endcomponent
-                @endforeach
-                </ul>
-            </div>
-        </form>
+        <div class="card" style="width: 18rem;">
+            <ul class="list-group list-group-flush">
+            @foreach($forum->comments as $comment)
+                @component('components.comment.comment',['comment'=>$comment,'user'=>$commentUsers[$comment->user_id]])@endcomponent
+            @endforeach
+            </ul>
+        </div>
     </div>
 </div>
 <div class="row" id="files">
