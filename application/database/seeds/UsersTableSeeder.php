@@ -16,6 +16,8 @@ class UsersTableSeeder extends Seeder
         DB::table($this::TABLENAME)->insert([
             'id'        =>  1,
             'public_id' =>  'develop001',
+            'public_id_changed'
+                        =>  true,
             'name'      =>  'テストユーザ',
             'country_cd'=>  '81',
             'phone_number'
@@ -29,6 +31,8 @@ class UsersTableSeeder extends Seeder
         DB::table($this::TABLENAME)->insert([
             'id'        =>  2,
             'public_id' =>  'develop002',
+            'public_id_changed'
+                        =>  true,
             'name'      =>  'テストユーザ2',
             'country_cd'=>  '81',
             'phone_number'

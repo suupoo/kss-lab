@@ -12,6 +12,9 @@
         <p><b>公開ID:</b>{{$account->public_id}}</p>
 
         @if(\Illuminate\Support\Facades\Auth::id() == $account->id)
+        @if(!$account->public_id_changed)
+        <p>公開IDを好きなIDに変更できます。</p>
+        @endif
         <p><b>国コード:</b>{{$account->country_cd}}</p>
         <p><b>電話番号:</b>{{$account->phone_number}}</p>
         <p><b>メールアドレス:</b>{{$account->email}}</p>
