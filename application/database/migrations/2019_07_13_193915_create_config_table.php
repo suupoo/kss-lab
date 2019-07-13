@@ -20,10 +20,10 @@ class CreateConfigTable extends Migration
             $table->smallInteger('function_cd');
             $table->integer('attribute_cd');
             $table->integer('detail_cd');
+            $table->string('name');
             $table->string('displayText');
-            $table->string('config');
-            $table->boolean('multiValue');
             $table->text(   'description');
+            $table->boolean('multiValue');
             //共通列
             $table->bigInteger('edit_user');
             $table->boolean('enable')
