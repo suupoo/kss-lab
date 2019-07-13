@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserConfigTable extends Migration
+class CreateSettingTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateUserConfigTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_config', function (Blueprint $table) {
+        Schema::create('settings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id');
             $table->bigInteger('config_id');
+            $table->string('value');
+            $table->bigInteger('edit_user');
             $table->boolean('enable')
                 ->default(true);
             $table->timestamps();
@@ -31,6 +33,6 @@ class CreateUserConfigTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_config');
+        Schema::dropIfExists('settings');
     }
 }
