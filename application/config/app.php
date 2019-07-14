@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
         App\Providers\FileCheckServiceProvider::class,
+        App\Providers\SettingServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -228,6 +229,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         // Original Facades
         'FileCheck'=>App\Facades\FileCheck::class,
+        'Setting'=>App\Facades\Setting::class,
 
     ],
 
