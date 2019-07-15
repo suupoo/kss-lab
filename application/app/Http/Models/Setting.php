@@ -20,4 +20,14 @@ class Setting extends Model
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
     const DELETED_AT = 'deleted_at';
+
+    public function config()
+    {
+        return $this
+            ->hasOne(
+                'App\Http\Models\Config',
+                'id',
+                'config_id'
+            );
+    }
 }
