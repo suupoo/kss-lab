@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Setting extends Model
 {
-    protected $table = 'configs';
+    protected $table = 'settings';
     protected $primaryKey = 'id';
     protected $dates = ['deleted_at'];
 
