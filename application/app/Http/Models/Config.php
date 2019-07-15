@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Http\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,6 +19,9 @@ class Config extends Model
     const NAME       = 'name';
     const DISPLAYTEXT
                      = 'displayText';
+    const VALUES     = 'values';
+    const DEFAULTVALUES
+                     = 'defaultValues';
     const DESCRIPTION
                      = 'description';
     const MULTI_VALUE

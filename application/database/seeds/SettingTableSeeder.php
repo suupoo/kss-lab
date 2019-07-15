@@ -37,5 +37,17 @@ class SettingTableSeeder extends Seeder
             'updated_at'=>new DateTime('2019/07/13 00:00:00'),
             'deleted_at'=>  null,
         ]);
+
+        DB::table($this::TABLENAME)->insert([
+            'id'        =>  3,
+            'user_id'   =>  1,
+            'config_id' =>  2,
+            'value'     => 'age',
+            'edit_user' =>  1,
+            'enable'    =>  1,
+            'created_at'=>new DateTime('2019/07/13 00:00:00'),
+            'updated_at'=>new DateTime('2019/07/13 00:00:00'),
+            'deleted_at'=>  null,
+        ]);
     }
 }

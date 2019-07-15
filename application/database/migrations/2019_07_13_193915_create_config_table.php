@@ -22,6 +22,8 @@ class CreateConfigTable extends Migration
             $table->integer('detail_cd');
             $table->string('name');
             $table->string('displayText');
+            $table->string('values',1000);
+            $table->string('defaultValues',1000);
             $table->text(   'description');
             $table->boolean('multiValue');
             //共通列
