@@ -34,13 +34,71 @@ class Config extends Model
     const DELETED_AT = 'deleted_at';
 
     protected $fillable = [
-        'function_cd',
-        'attribute_cd',
-        'detail_cd',
-        'config',
-        'multiValue',
-        'description',
-        'edit_user',
-        'enable',
+        self::FUNCTION_CD,
+        self::ATTRIBUTE_CD,
+        self::DETAIL_CD,
+        self::NAME,
+        self::DISPLAYTEXT,
+        self::VALUES,
+        self::DEFAULTVALUES,
+        self::DESCRIPTION,
+        self::MULTI_VALUE,
+        self::EDIT_USER,
+        self::ENABLE,
+        self::CREATED_AT,
+        self::UPDATED_AT,
     ];
+
+#region Accessor & Mutator
+#region "values"
+    /**
+     * Set encrypted Values
+     *
+     * @param $value
+     */
+    public function setValuesAttribute($value)
+    {
+        $this->attributes[self::VALUES] = encrypt($value);
+    }
+
+    /**
+     * get decrypted Values
+     *
+     * @param $value
+     * @return bool|mixed
+     */
+    public function getValuesAttribute($value)
+    {
+        if(!$value)
+            return false;
+
+        return decrypt($value);
+    }
+#endregion
+#region "defaultValues"
+    /**
+     * Set encrypted defaultValues
+     *
+     * @param $value
+     */
+    public function setDefaultValuesAttribute($value)
+    {
+        $this->attributes[self::DEFAULTVALUES] = encrypt($value);
+    }
+    /**
+     * defaultValues値の取得時に復号化
+     *
+     * @param $value
+     * @return bool|mixed
+     */
+    public function getDefaultValuesAttribute($value)
+    {
+        if(!$value)
+            return false;
+
+        return decrypt($value);
+    }
+#endregion
+#endregion
+
 }
