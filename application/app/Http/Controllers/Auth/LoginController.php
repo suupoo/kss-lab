@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Http\Models\User;
+use App\Facades\Setting as Setting;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -36,4 +40,30 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param Request $request
+     * @param User $user
+     */
+    public function authenticated(Request $request, User $user)
+    {
+        Session::put('setting', Setting::get($user));
+    }
+
+    /**
+     * Logout
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function logout(Request $request)
+    {
+        Session::remove('setting');
+
+        return redirect()->route('/home');
+    }
+
 }
