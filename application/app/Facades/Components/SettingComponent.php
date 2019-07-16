@@ -1,11 +1,8 @@
 <?php
 namespace App\Facades\Components;
 
-use App\Http\Models\Config;
 use App\Http\Models\User;
 use App\Http\Models\Setting;
-use function foo\func;
-use Illuminate\Database\Eloquent\Collection;
 
 class SettingComponent
 {
