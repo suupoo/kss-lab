@@ -15,6 +15,21 @@ class UsersTableSeeder extends Seeder
     {
         DB::table($this::TABLENAME)->insert([
             'id'        =>  1,
+            'public_id' =>  'admin',
+            'public_id_changed'
+                        =>  true,
+            'name'      =>  '管理者',
+            'country_cd'=>  '81',
+            'phone_number'
+                        =>  null,
+            'email'     =>  env('TEST_ADMIN_MAIL'),
+            'password'  =>  '$2y$10$JPj5ATn1OPKmWS.8lmWPjOLDyGlqKkrYA/GBmOCtVKVnoA91PbG6W',
+            'created_at'=>new DateTime('2019/06/11 00:00:00'),
+            'updated_at'=>new DateTime('2019/06/11 00:00:00'),
+        ]);
+
+        DB::table($this::TABLENAME)->insert([
+            'id'        =>  2,
             'public_id' =>  'develop001',
             'public_id_changed'
                         =>  true,
@@ -29,7 +44,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table($this::TABLENAME)->insert([
-            'id'        =>  2,
+            'id'        =>  3,
             'public_id' =>  'develop002',
             'public_id_changed'
                         =>  true,
