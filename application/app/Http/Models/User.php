@@ -2,6 +2,7 @@
 
 namespace App\Http\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -9,6 +10,40 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
+    use SoftDeletes;
+
+    protected $table = 'users';
+    protected $primaryKey = 'id';
+    protected $dates = ['deleted_at'];
+
+    const ID    = 'id';
+    const PUBLIC_ID
+                = 'public_id';
+    const PUBLIC_ID_CHANGED
+                = 'public_id_changed';
+    const NAME  = 'name';
+    const ADMINROLE
+                = 'adminRole';
+    const COUNTRY_CD
+                = 'country_cd';
+    const PHONE_NUMBER
+                = 'phone_number';
+    const EMAIL
+                = 'email';
+    const EMAIL_VERIFIED_AT
+                = 'email_verified_at';
+    const PASSWORD
+                = 'password';
+    const REMEMBER_TOKEN
+                = 'remember_token';
+    const VISIBLE
+                = 'visible';
+    const CREATED_AT
+                = 'created_at';
+    const UPDATED_AT
+                = 'updated_at';
+    const DELETED_AT
+                = 'deleted_at';
 
     /**
      * The attributes that are mass assignable.
