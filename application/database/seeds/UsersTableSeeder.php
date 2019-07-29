@@ -19,10 +19,11 @@ class UsersTableSeeder extends Seeder
             'public_id_changed'
                         =>  true,
             'name'      =>  '管理者',
+            'adminRole' =>  config('Admin.const.ROLE.ALL'),
             'country_cd'=>  '81',
             'phone_number'
                         =>  null,
-            'email'     =>  env('TEST_ADMIN_MAIL'),
+            'email'     =>  env('TEST_ADMIN_MAIL','admin@kss.lab'),
             'password'  =>  '$2y$10$JPj5ATn1OPKmWS.8lmWPjOLDyGlqKkrYA/GBmOCtVKVnoA91PbG6W',
             'created_at'=>new DateTime('2019/06/11 00:00:00'),
             'updated_at'=>new DateTime('2019/06/11 00:00:00'),
@@ -34,6 +35,7 @@ class UsersTableSeeder extends Seeder
             'public_id_changed'
                         =>  true,
             'name'      =>  'テストユーザ',
+            'adminRole' =>  config('Admin.const.ROLE.NONE'),
             'country_cd'=>  '81',
             'phone_number'
                         =>  env('SMS_FROM'),
@@ -49,6 +51,7 @@ class UsersTableSeeder extends Seeder
             'public_id_changed'
                         =>  true,
             'name'      =>  'テストユーザ2',
+            'adminRole' =>  config('Admin.const.ROLE.NONE'),
             'country_cd'=>  '81',
             'phone_number'
                         =>  null,
