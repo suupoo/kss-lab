@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Http\Models\User;
 use App\Facades\Setting as Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
@@ -63,7 +64,9 @@ class LoginController extends Controller
     {
         Session::remove('setting');
 
-        return redirect()->route('/home');
+        Auth::logout();
+
+        return redirect()->route('home');
     }
 
 }
