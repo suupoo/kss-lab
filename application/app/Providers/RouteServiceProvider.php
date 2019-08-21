@@ -71,6 +71,20 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
+     * Define the "api" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapAdminRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/admin.php'));
+    }
+
+    /**
      * Define the "ksslab" routes for the application.
      *
      * @return void
