@@ -16,9 +16,7 @@
             </li>
 
             @if(\Illuminate\Support\Facades\Auth::user()->adminRole == config('Admin.const.ROLE.ALL'))
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin.user') }}">ユーザ管理</a>
-                </li>
+                @include('components.admin.navbar-menu')
             @endif
 
             @endauth
