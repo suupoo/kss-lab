@@ -96,4 +96,17 @@ class User extends Authenticatable
     {
         return $this->email;
     }
+
+    /**
+     * 管理者権限があるかどうかをチェックする
+     *
+     * @return bool
+     */
+    public function getAdminPermissionAttribute()
+    {
+        if( $this->adminRole == config('Admin.const.ROLE.ALL') ){
+            return true;
+        }
+        return false;
+    }
 }
