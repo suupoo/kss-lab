@@ -10,7 +10,11 @@
 <div class="row">
     <div class="col">
         <ul class="list-group list-group-flush">
-
+            @foreach($users as $user)
+            <li class="list-group-item">
+                <a href="{{route('admin.user.show',['id'=>$user->public_id])}}">{{$user->name}}</a>
+            </li>
+            @endforeach
         </ul>
     </div>
 </div>

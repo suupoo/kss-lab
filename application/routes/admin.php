@@ -6,9 +6,13 @@
 |--------------------------------------------------------------------------
 |
 */
-Route::group(['prefix' => 'admin' ,'middleware' => ['admin.authenticate']],function(){
-    Route::get('/','Admin\AdminController@index')
-        ->name('admin.index');
-    Route::get('/user','Admin\AdminUserController@index')
-        ->name('admin.user');
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin.authenticate']],function(){
+    //管理インデックス
+    Route::get('/','Admin\AdminUserController@index')
+        ->name('index');
+
+    //ユーザ管理
+    Route::resource('user','Admin\AdminUserController',
+        ['only' => ['index','show']]
+    );
 });
