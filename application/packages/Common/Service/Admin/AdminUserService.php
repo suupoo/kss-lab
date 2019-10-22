@@ -26,7 +26,7 @@ class AdminUserService
         $user = $this->userRepository::where(User::PUBLIC_ID,$public_id)
             ->first();
 
-        return ['account'=> $user];
+        return $user;
     }
 
     public function getList()
@@ -37,6 +37,5 @@ class AdminUserService
 
         return $users;
     }
-
 
 }

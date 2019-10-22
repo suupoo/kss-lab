@@ -109,4 +109,21 @@ class User extends Authenticatable
         }
         return false;
     }
+
+    /**
+     * 表示するユーザ権限情報を取得する
+     *
+     * @return string
+     */
+    public function getDisplayAdminRoleAttribute()
+    {
+        // todo:文言の外部ファイル化＆国際対応
+        // 権限が設定されている場合
+        if( !is_null($this->adminRole) ) {
+            if( $this->adminRole == config('Admin.const.ROLE.ALL') )
+                return "管理者";
+        }
+
+        return "一般";
+    }
 }
