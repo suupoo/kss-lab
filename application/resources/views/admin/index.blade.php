@@ -10,7 +10,7 @@
 <div class="row">
     <div class="col">
         <ul class="list-group list-group-flush">
-            <a class="nav-link" href="{{ route('admin.user') }}">ユーザ</a>
+            <a class="nav-link" href="{{ route('admin.user.index') }}">ユーザ</a>
         </ul>
     </div>
 </div>
