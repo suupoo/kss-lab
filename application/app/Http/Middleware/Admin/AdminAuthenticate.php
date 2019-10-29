@@ -16,9 +16,11 @@ class AdminAuthenticate
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user()->admin_permission == false){
+        /* todo:管理者権限エラーは404ではなく個別エラーに分離する */
+        //ログイン中ではない
+        //管理者権限を持たない
+        if( !Auth::user() || Auth::user()->admin_permission == null )
             abort(404);
-        }
 
         return $next($request);
     }
