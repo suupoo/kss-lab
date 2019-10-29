@@ -35,4 +35,20 @@ class AdminUserController extends Controller
     {
         return view('admin.user.show',['user'=>$adminUserService->get($user_id)]);
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param $user_id
+     * @param AdminUserService $adminUserService
+     * @return void
+     */
+    public function destroy($user_id, AdminUserService $adminUserService)
+    {
+        //削除
+        //todo:削除実行時のエラー処理
+        $adminUserService->delete($user_id);
+
+        return redirect()->route('admin.user.index');
+    }
 }

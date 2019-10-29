@@ -17,6 +17,17 @@
         <p><b>権限種別:</b>{{$user->display_admin_role}}</p>
 
     </div>
+
+    <div class="col">
+        <form action="{{route('admin.user.destroy',$user->public_id)}}" method="post">
+            {{csrf_field()}}
+            @method('DELETE')
+
+            <button type="submit" class="btn btn-danger">
+                削除
+            </button>
+        </form>
+    </div>
 </div>
 
 @endsection

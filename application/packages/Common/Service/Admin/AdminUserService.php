@@ -38,4 +38,22 @@ class AdminUserService
         return $users;
     }
 
+    /**
+     * Delete
+     *
+     * @param string $public_id
+     * @return bool $forum
+     */
+    public function delete(string $public_id)
+    {
+        $user = [];
+        $user = $this->userRepository::where(User::PUBLIC_ID,$public_id)
+            ->first();
+
+        // 削除
+        $user->delete();
+
+        return ($user->deleted_at)? true : false;
+    }
+
 }
