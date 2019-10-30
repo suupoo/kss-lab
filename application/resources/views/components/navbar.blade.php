@@ -5,7 +5,9 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
+
         <ul class="navbar-nav mr-auto">
+            @auth
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('home') }}">ホーム<span class="sr-only">(current)</span></a>
             </li>
@@ -13,7 +15,13 @@
                 <a class="nav-link" href="{{ route('forum.index') }}">掲示板</a>
             </li>
 
+            @if(\Illuminate\Support\Facades\Auth::user()->adminRole == config('Admin.const.ROLE.ALL'))
+                @include('components.admin.navbar-menu')
+            @endif
+
+            @endauth
         </ul>
+
         @guest
             <a class="btn btn-outline-light mx-1" href="{{ route('login') }}">{{ __('auth.login') }}</a>
             @if (Route::has('register'))
