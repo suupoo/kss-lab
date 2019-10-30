@@ -67,7 +67,10 @@
         <div class="card" style="width: 18rem;">
             <ul class="list-group list-group-flush">
             @foreach($forum->comments as $comment)
-                @component('components.comment.comment',['comment'=>$comment,'user'=>$commentUsers[$comment->user_id]])@endcomponent
+                @if( array_key_exists($comment->user_id,$commentUsers))
+                    {{-- todo:退会済みユーザのコメントを残す  --}}
+                    @component('components.comment.comment',['comment'=>$comment,'user'=>$commentUsers[$comment->user_id]])@endcomponent
+                @endif
             @endforeach
             </ul>
         </div>
